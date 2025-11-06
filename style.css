@@ -41,7 +41,7 @@ h3 {
   margin: auto;
 }
 
-/* Styling for Job-listing Section */
+/* Job-listing Section */
 
 .jobs .job-id {
   margin-top: 3rem;
@@ -91,6 +91,22 @@ h3 {
   padding-bottom: 0;
 }
 
+/* Trust section */
+
+.trust .t-box {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 3rem;
+}
+
+.trust .t-box img {
+  width: 100px;
+  object-fit: cover;
+  margin: 1rem 1rem 1rem 0;
+}
+
 /* Responsiveness */
 
 @media (max-width: 600px) {
@@ -122,5 +138,9 @@ h3 {
     padding: 2rem 1rem;
     text-align: center;
     justify-content: center;
+  }
+
+  .trust .t-box {
+    justify-content: space-evenly;
   }
 }
