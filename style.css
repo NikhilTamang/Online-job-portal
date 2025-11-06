@@ -63,7 +63,7 @@ h3{
 
 header{
     background-color: #1f4a40;
-    position: fixed;
+    position: sticky;
     top: 0;
     right: 0;
     width: 100;
