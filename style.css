@@ -1,211 +1,365 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
-body{
-    position: relative;
+body {
+  position: relative;
 }
 
-h1{
-    font-size: 3rem;
-    font-weight: 600;
+/* Global Css */
+
+h1 {
+  font-size: 3rem;
+  font-weight: 600;
 }
 
-h2{
-    font-size: 2rem;
-    font-weight: 600;
-    line-height: 60px;
+h2 {
+  font-size: 2rem;
+  font-weight: 600;
 }
 
-h3{
-    font-size: 1.2rem;
-    padding-bottom: 1rem;
-    font-weight: 500;
+h3 {
+  font-size: 1rem;
+  font-weight: 500;
 }
 
-#w-btn{
-    margin-left: 40px;
-    background: #fff;
-    color: dodgerblue;
-    padding: 9px 30px;
-    border-radius: 20px;
-    font-size: 1.2rem;
-    font-weight: 500;
-    box-shadow: none;
-    border: none;
+#w-btn {
+  margin-left: 40px;
+  background: #fff;
+  color: dodgerblue;
+  padding: 9px 30px;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  box-shadow: none;
+  border: none;
 }
 
-#g-btn{
-    text-decoration: none;
-    background-color: #51a995;
-    color: #fff;
-    padding: 9px 30px;
-    border-radius: 20px;
-    cursor: pointer;
-}
-.sec-space{
-    padding: 4rem 0;
+#g-btn {
+  text-decoration: none;
+  background-color: #51a995;
+  color: #fff;
+  padding: 9px 30px;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
-.extra-space{
-    padding-top: 8rem;
+.sec-space {
+  padding: 4rem 0;
 }
 
-.obj-width{
-    max-width: 1200px;
-    margin: auto;
+.extra-space {
+  padding-top: 8rem;
 }
 
-header{
-    background-color: #1f4a40;
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 100;
-    z-index: 999;
+.obj-width {
+  max-width: 1200px;
+  margin: auto;
 }
 
-#navbar{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 80px;
+header {
+  background-color: #1f4a40;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100;
+  z-index: 999;
+}
+
+#navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
 }
 
 #navbar .logo {
-    width: 90px;
+  width: 90px;
 }
 
 #menu {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  list-style: none;
 }
 
 #menu li a {
-    color: #ffff;
-    text-decoration: none;
-    margin-left: 40px;
-    font-size: 1.1rem;
-    font-weight: 500;
+  color: #ffff;
+  text-decoration: none;
+  margin-left: 40px;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
-#bar{
-    color: #fff;
-    display: none;
+#bar {
+  color: #fff;
+  display: none;
 }
 
 /*hero*/
 
-.hero{
-    background-color: #1f4a40;
-}
-
-.hero-box{
-    display: flex;
-    justify-content: space-between;
-    height: 100vh;
-    align-items: center;
-}
-
-.h-left{
-    width: 45%;
-    color: #fff;
-}
-
-.h-left p{
-    padding: 1.5rem 0;
-}
-
-.search{
-    position: relative;
-}
-
-.search input{
-    width: 100%;
-    height: 4rem;
-    border-radius: 35px;
-    padding: 0 20px;
-    font-size: 1rem;
-    outline: none;
-    border: none;
-}
-
-.search a{
-    position: absolute;
-    top: 12px;
-    right: 20px;
-}
-
-.h-right{
-    width: 50%;
-}
-.h-right img{
-    width: 100%;
-    object-fit: cover;
-}
-
-@media (max-width: 699px){
-    #menu {
-        background-color: #fff;
-        display: block;
-        width: 280px;
-        height: auto;
-        position: absolute;
-        top: 80px;
-        right: -100%;
-        padding: 30px 0;
-        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
-        border-radius: 13px;
-        opacity: 0;
-        transition: all 0.3s ease;
-}
-
-#menu.active{
-    right: 10px;
-    opacity: 1;
-}
-
-#menu li{
-    padding: 1rem;
-} 
-
-#menu li a {
-    color: #1f4a40;
-}
-
-#bar {
-    display: block;
-    font-size: 1.7rem;
-    cursor: pointer;
-}
-
-#w-btn {
-   margin: 20px 0 0 50px;
-    background: #1f4a40;
-    color: #fff;
+.hero {
+  background-color: #1f4a40;
 }
 
 .hero-box {
-   flex-direction: column-reverse;
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  align-items: center;
+}
+
+.h-left {
+  width: 45%;
+  color: #fff;
+}
+
+.h-left p {
+  padding: 1.5rem 0;
+}
+
+.search {
+  position: relative;
+}
+
+.search input {
+  width: 100%;
+  height: 4rem;
+  border-radius: 35px;
+  padding: 0 20px;
+  font-size: 1rem;
+  outline: none;
+  border: none;
+}
+
+.search a {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+}
+
+.h-right {
+  width: 50%;
+}
+.h-right img {
+  width: 100%;
+  object-fit: cover;
+}
+
+/* Job-listing Section */
+
+.jobs .job-id {
+  margin-top: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.jobs .job-id li {
+  padding: 20px 40px;
+  cursor: pointer;
+  color: #000;
+}
+
+.jobs .job-id li.active {
+  background: #51a995;
+  color: #fff;
+}
+
+.jobs .jList {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid #ccc;
+  align-items: center;
+  justify-items: center;
+  cursor: pointer;
+  color: #000;
+  padding: 2rem 2rem;
+}
+
+.jobs .jList.delete {
+  display: none;
+}
+
+.jobs .jList:hover {
+  background: #ecf1ee;
+}
+
+.jobs .jList img {
+  width: 40px;
+}
+
+.jobs .jList h3 {
+  padding-bottom: 0;
+}
+
+/* Trust section */
+
+.trust .t-box {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 3rem;
+}
+
+.trust .t-box img {
+  width: 100px;
+  object-fit: cover;
+  margin: 1rem 1rem 1rem 0;
+}
+
+/* Team section  */
+
+.team-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.team-container .fl-box {
+  border: 1px solid #c1e1d9;
+  width: 280px;
+  padding: 2rem 0;
+  border-radius: 20px;
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fl-box img {
+  width: 80px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.skill {
+  padding: 2rem 0 3rem 0;
+}
+
+#key {
+  font: size 0.8rem;
+  background-color: #edcfee;
+  padding: 10px 20px;
+  border-radius: 20px;
+}
+
+/* Responsiveness */
+
+@media (max-width: 600px) {
+  #menu {
+    background-color: #fff;
+    display: block;
+    width: 280px;
+    height: auto;
+    position: absolute;
+    top: 80px;
+    right: -100%;
+    padding: 30px 0;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 13px;
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  #menu.active {
+    right: 10px;
+    opacity: 1;
+  }
+
+  #menu li {
+    padding: 1rem;
+  }
+
+  #menu li a {
+    color: #1f4a40;
+  }
+
+  #bar {
+    display: block;
+    font-size: 1.7rem;
+    cursor: pointer;
+  }
+
+  #w-btn {
+    margin: 20px 0 0 50px;
+    background: #1f4a40;
+    color: #fff;
+  }
+
+  .hero-box {
+    flex-direction: column-reverse;
     justify-content: center;
     height: auto;
     align-items: start;
     padding: 8rem 0;
-}
-.h-left {
+  }
+  .h-left {
     width: 100%;
-}
+  }
 
-.h-right {
+  .h-right {
     width: 50%;
     display: none;
-}
+  }
 
+  .jobs .job-id {
+    position: relative;
+    width: 100%;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .jobs .job-id li {
+    padding: 20px 30px;
+    text-wrap: nowrap;
+  }
+
+  .jobs-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
+
+  .jobs .jList {
+    width: 48%;
+    margin-top: 1rem;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 15px;
+    padding: 2rem 1rem;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .trust .t-box {
+    justify-content: space-evenly;
+  }
+
+  .team-container .fl-box {
+    width: 48%;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 1rem;
+  }
+
+  .skill {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.5rem;
+    padding: 2rem 0 3rem 0;
+  }
 }
