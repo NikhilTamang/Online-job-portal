@@ -64,7 +64,7 @@ h3 {
 
 header {
   background-color: #1f4a40;
-  position: fixed;
+  position: sticky;
   top: 0;
   right: 0;
   width: 100;
@@ -79,7 +79,7 @@ header {
 }
 
 #navbar .logo {
-  width: 90px;
+  width: 200px;
 }
 
 #menu {
@@ -150,6 +150,22 @@ header {
 .h-right img {
   width: 100%;
   object-fit: cover;
+}
+
+.features .fe-box{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.features .fe-box div{
+  width: 200px;
+}
+
+.features .fe-box img{
+  width: 50px;
+  margin-right: 3rem;
 }
 
 /* Job-listing Section */
@@ -256,7 +272,65 @@ header {
   border-radius: 20px;
 }
 
+/* footer */
+
+footer{
+  background: #1f4a40;
+  color: #fff;
+  padding: 4rem 0;
+}
+
+.top{
+  display: flex;
+  align-items: center;
+  text-align: start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.top .logo{
+  width: 300px;
+  margin-bottom: 1rem;
+}
+
+.top i{
+  color: #fff;
+  font-size: 2rem;
+  margin-left: 0.5rem;
+}
+
+.bottom{
+  padding-top: 2rem;
+  text-align: start;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.bottom div{
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom a{
+  text-decoration: none;
+  color: #fff;
+  line-height: 35px;
+  font-size: 1rem;
+}
+
+.bottom h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
 /* Responsiveness */
+
+@media (max-width: 1200px){
+  .obj-width {
+  width: 95%;
+ }
+}
 
 @media (max-width: 600px) {
   #menu {
@@ -315,6 +389,10 @@ header {
     display: none;
   }
 
+  .features .fe-box div {
+    width: 40%;
+}
+
   .jobs .job-id {
     position: relative;
     width: 100%;
@@ -362,4 +440,16 @@ header {
     grid-gap: 0.5rem;
     padding: 2rem 0 3rem 0;
   }
+
+  /* footer */
+
+  .top i {
+    margin:1rem 1rem 0 0;
+}
+
+  .bottom div {
+    width: 50%;
+    margin-bottom: 50px;
+}
+
 }
