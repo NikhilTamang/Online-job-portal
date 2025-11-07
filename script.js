@@ -1,3 +1,12 @@
+const bar = document.getElementById('bar');
+const menu = document.getElementById('menu');
+
+if (bar) {
+    bar.addEventListener('click', () => {
+        menu.classList.toggle('active');
+    })
+}
+
 const sortBtns = document.querySelectorAll(".job-id > *");
 const sortItems = document.querySelectorAll(".jobs-container > *");
 
