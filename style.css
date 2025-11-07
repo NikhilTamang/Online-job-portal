@@ -67,7 +67,7 @@ header {
   position: fixed;
   top: 0;
   right: 0;
-  width: 100;
+  width: 100%;
   z-index: 999;
 }
 
@@ -256,9 +256,34 @@ header {
   border-radius: 20px;
 }
 
+/* Browse jobs */
+
+.jobs form {
+  margin-top: 3rem;
+  width: 100%;
+  border: 1px solid #51a995;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.jobs form i {
+  padding-left: 1rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.jobs form input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 1rem 0.5rem;
+}
+
 /* Responsiveness */
 
-@media (max-width: 600px) {
+@media (max-width: 699px) {
   #menu {
     background-color: #fff;
     display: block;
