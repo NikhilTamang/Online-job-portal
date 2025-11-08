@@ -7,6 +7,12 @@
   font-family: "Poppins", sans-serif;
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   position: relative;
 }
@@ -31,7 +37,7 @@ h3 {
 #w-btn {
   margin-left: 40px;
   background: #fff;
-  color: dodgerblue;
+  color: #1f4a40;
   padding: 9px 30px;
   border-radius: 20px;
   font-size: 1.2rem;
@@ -67,7 +73,7 @@ header {
   position: fixed;
   top: 0;
   right: 0;
-  width: 100%;
+  width: 100%%;
   z-index: 999;
 }
 
@@ -79,7 +85,7 @@ header {
 }
 
 #navbar .logo {
-  width: 90px;
+  width: 130px;
 }
 
 #menu {
@@ -147,9 +153,26 @@ header {
 .h-right {
   width: 50%;
 }
+
 .h-right img {
   width: 100%;
   object-fit: cover;
+}
+
+.features .fe-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.features .fe-box div {
+  width: 200px;
+}
+
+.features .fe-box img {
+  width: 50px;
+  margin-top: 3rem;
 }
 
 /* Job-listing Section */
@@ -256,6 +279,58 @@ header {
   border-radius: 20px;
 }
 
+/* footer */
+
+footer {
+  background: #1f4a40;
+  color: #fff;
+  padding: 3rem 0;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  text-align: start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.top .logo {
+  width: 170px;
+  /* margin-bottom: 1rem; */
+}
+
+.top i {
+  color: #fff;
+  font-size: 2rem;
+  margin-left: 0.5rem;
+}
+
+.bottom {
+  padding-top: 2rem;
+  text-align: start;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.bottom div {
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom a {
+  text-decoration: none;
+  color: #fff;
+  line-height: 35px;
+  font-size: 1rem;
+}
+
+.bottom h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
+}
+
 /* Browse jobs */
 
 .jobs form {
@@ -283,7 +358,17 @@ header {
 
 /* Responsiveness */
 
+@media (max-width: 1200px) {
+  .obj-width {
+    width: 95%;
+  }
+}
+
 @media (max-width: 699px) {
+  #navbar {
+    height: 60px;
+  }
+
   #menu {
     background-color: #fff;
     display: block;
@@ -329,8 +414,9 @@ header {
     justify-content: center;
     height: auto;
     align-items: start;
-    padding: 8rem 0;
+    padding: 7rem 0;
   }
+
   .h-left {
     width: 100%;
   }
@@ -338,6 +424,10 @@ header {
   .h-right {
     width: 50%;
     display: none;
+  }
+
+  .features .fe-box div {
+    width: 40%;
   }
 
   .jobs .job-id {
@@ -386,5 +476,16 @@ header {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 0.5rem;
     padding: 2rem 0 3rem 0;
+  }
+
+  /* footer */
+
+  .top i {
+    margin: 1rem 1rem 0 0;
+  }
+
+  .bottom div {
+    width: 50%;
+    margin-bottom: 50px;
   }
 }
