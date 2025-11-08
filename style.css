@@ -7,6 +7,12 @@
   font-family: "Poppins", sans-serif;
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   position: relative;
 }
@@ -31,7 +37,7 @@ h3 {
 #w-btn {
   margin-left: 40px;
   background: #fff;
-  color: dodgerblue;
+  color: #1f4a40;
   padding: 9px 30px;
   border-radius: 20px;
   font-size: 1.2rem;
@@ -64,10 +70,10 @@ h3 {
 
 header {
   background-color: #1f4a40;
-  position: sticky;
+  position: fixed;
   top: 0;
   right: 0;
-  width: 100;
+  width: 100%;
   z-index: 999;
 }
 
@@ -79,7 +85,7 @@ header {
 }
 
 #navbar .logo {
-  width: 200px;
+  width: 130px;
 }
 
 #menu {
@@ -147,25 +153,26 @@ header {
 .h-right {
   width: 50%;
 }
+
 .h-right img {
   width: 100%;
   object-fit: cover;
 }
 
-.features .fe-box{
+.features .fe-box {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
 }
 
-.features .fe-box div{
+.features .fe-box div {
   width: 200px;
 }
 
-.features .fe-box img{
+.features .fe-box img {
   width: 50px;
-  margin-right: 3rem;
+  margin-top: 3rem;
 }
 
 /* Job-listing Section */
@@ -274,13 +281,13 @@ header {
 
 /* footer */
 
-footer{
+footer {
   background: #1f4a40;
   color: #fff;
-  padding: 4rem 0;
+  padding: 3rem 0;
 }
 
-.top{
+.top {
   display: flex;
   align-items: center;
   text-align: start;
@@ -288,18 +295,18 @@ footer{
   flex-wrap: wrap;
 }
 
-.top .logo{
-  width: 300px;
-  margin-bottom: 1rem;
+.top .logo {
+  width: 170px;
+  /* margin-bottom: 1rem; */
 }
 
-.top i{
+.top i {
   color: #fff;
   font-size: 2rem;
   margin-left: 0.5rem;
 }
 
-.bottom{
+.bottom {
   padding-top: 2rem;
   text-align: start;
   display: flex;
@@ -307,12 +314,12 @@ footer{
   flex-wrap: wrap;
 }
 
-.bottom div{
+.bottom div {
   display: flex;
   flex-direction: column;
 }
 
-.bottom a{
+.bottom a {
   text-decoration: none;
   color: #fff;
   line-height: 35px;
@@ -320,19 +327,23 @@ footer{
 }
 
 .bottom h3 {
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  font-size: 1.1rem;
 }
 
 /* Responsiveness */
 
-@media (max-width: 1200px){
+@media (max-width: 1200px) {
   .obj-width {
-  width: 95%;
- }
+    width: 95%;
+  }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 699px) {
+  #navbar {
+    height: 60px;
+  }
+
   #menu {
     background-color: #fff;
     display: block;
@@ -378,8 +389,9 @@ footer{
     justify-content: center;
     height: auto;
     align-items: start;
-    padding: 8rem 0;
+    padding: 7rem 0;
   }
+
   .h-left {
     width: 100%;
   }
@@ -391,7 +403,7 @@ footer{
 
   .features .fe-box div {
     width: 40%;
-}
+  }
 
   .jobs .job-id {
     position: relative;
@@ -444,12 +456,11 @@ footer{
   /* footer */
 
   .top i {
-    margin:1rem 1rem 0 0;
-}
+    margin: 1rem 1rem 0 0;
+  }
 
   .bottom div {
     width: 50%;
     margin-bottom: 50px;
-}
-
+  }
 }

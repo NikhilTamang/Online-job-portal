@@ -1,10 +1,10 @@
-const bar = document.getElementById('bar');
-const menu = document.getElementById('menu');
+const bar = document.getElementById("bar");
+const menu = document.getElementById("menu");
 
 if (bar) {
-    bar.addEventListener('click', () => {
-        menu.classList.toggle('active');
-    })
+  bar.addEventListener("click", () => {
+    menu.classList.toggle("active");
+  });
 }
 
 const sortBtns = document.querySelectorAll(".job-id > *");
