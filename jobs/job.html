@@ -44,50 +44,13 @@
         <input type="text" name="" id="searchBar" placeholder="Search Jobs" />
       </form>
 
-      <ul class="job-id">
-        <li data-target="all" class="active">Recent Jobs</li>
-        <li data-target="freelancer">Freelancer</li>
-        <li data-target="fullTime">Full Time</li>
-        <li data-target="partTime">Part Time</li>
-      </ul>
-
-      <div class="jobs-container">
-        <li data-item="fullTime" class="jList">
-          <img src="../images/google-logo.webp" alt="" />
-          <h3>Web Developer</h3>
-          <p>$900-1200/m</p>
-          <span id="key">Full Time</span>
-        </li>
-        <li data-item="freelancer" class="jList">
-          <img src="../images/instagram-logo.webp" alt="" />
-          <h3>Freelancer</h3>
-          <p>$900-1200/m</p>
-          <span id="key">Freelancer</span>
-        </li>
-        <li data-item="partTime" class="jList">
-          <img src="../images/apple-logo.webp" alt="" />
-          <h3>Business Associate</h3>
-          <p>$900-1200/m</p>
-          <span id="key">Part Time</span>
-        </li>
-        <li data-item="fullTime" class="jList">
-          <img src="../images/linkedin-logo.webp" alt="" />
-          <h3>Digital Marketing</h3>
-          <p>$900-1200/m</p>
-          <span id="key">Full Time</span>
-        </li>
-        <li data-item="partTime" class="jList">
-          <img src="../images/facebook-logo.webp" alt="" />
-          <h3>User Experience</h3>
-          <p>$900-1200/m</p>
-          <span id="key">Part Time</span>
-        </li>
-      </div>
+      <div class="jobs-container" id="root"></div>
     </section>
 
     <!-- Footer Section  -->
 
-    <script src="script.js"></script>
-    <script src="toggle.js"></script>
+    <script src="job-list.js"></script>
+    <script src="../toggle.js"></script>
+    <script src="jobSearch.js"></script>
   </body>
 </html>
