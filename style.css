@@ -27,10 +27,12 @@ h1 {
 h2 {
   font-size: 2rem;
   font-weight: 600;
+  line-height: 60px;
 }
 
 h3 {
-  font-size: 1rem;
+  font-size: 1.2rem;
+  padding-bottom: 1rem;
   font-weight: 500;
 }
 
@@ -158,6 +160,8 @@ header {
   width: 100%;
   object-fit: cover;
 }
+
+/* Feature Section  */
 
 .features .fe-box {
   display: flex;
@@ -356,6 +360,36 @@ footer {
   padding: 1rem 0.5rem;
 }
 
+/* Job Details Page  */
+
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8fcfa;
+  border: 1px solid #51a995;
+  border-radius: 38px;
+  padding: 2rem;
+}
+
+.job-header img {
+  width: 100px;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 15px;
+  margin-right: 2rem;
+}
+
+.job-img-row {
+  display: flex;
+  align-items: center;
+}
+
+.job-description p {
+  padding-bottom: 2rem;
+  line-height: 1.6;
+}
+
 /* Responsiveness */
 
 @media (max-width: 1200px) {
@@ -487,5 +521,26 @@ footer {
   .bottom div {
     width: 50%;
     margin-bottom: 50px;
+  }
+
+  /* Job Details  */
+
+  .job-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: 15px;
+    padding: 1rem;
+  }
+
+  .job-img-row {
+    margin-bottom: 2rem;
+  }
+
+  .job-header img {
+    padding: 0rem;
+    border-radius: 10px;
+    margin-right: 2rem;
   }
 }

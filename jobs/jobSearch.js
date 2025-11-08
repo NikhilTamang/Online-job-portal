@@ -23,6 +23,10 @@ const displayItems = (items) => {
           <span id="key">${av}</span>`;
 
     rootElement.appendChild(jList);
+
+    jList.addEventListener("click", () => {
+      window.location.href = `job-details.html?id=${index}`;
+    });
   });
 };
 
