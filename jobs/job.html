@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Portal</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.boxicons.com/3.0.3/fonts/basic/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Header Section  -->
+
+    <header>
+      <div id="navbar" class="obj-width">
+        <a href="../index.html"
+          ><img src="../images/logo.png" alt="logo" class="logo"
+        /></a>
+        <ul id="menu">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="#">Browse Job</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+          <button id="w-btn">Join</button>
+        </ul>
+
+        <i id="bar" class="bx bx-menu"></i>
+      </div>
+    </header>
+
+    <!-- Job Listing Section -->
+
+    <section class="jobs sec-space obj-width extra-space">
+      <h2>Jobs in Demand</h2>
+      <p>Most viewed and all-time top-selling services</p>
+
+      <form>
+        <i class="bxr bx-search"></i>
+        <input type="text" name="" id="searchBar" placeholder="Search Jobs" />
+      </form>
+
+      <div class="jobs-container" id="root"></div>
+    </section>
+
+    <!-- Footer Section  -->
+
+    <script src="job-list.js"></script>
+    <script src="../toggle.js"></script>
+    <script src="jobSearch.js"></script>
+  </body>
+</html>
