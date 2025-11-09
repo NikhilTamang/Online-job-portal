@@ -1,5 +1,17 @@
 const categories = Array.from(jCategory);
 
+document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchData = urlParams.get("search");
+  if (searchData) {
+    document.getElementById("searchBar").value = searchData;
+    const filterData = categories.filter((item) =>
+      item.title.toLowerCase().includes(searchData.toLowerCase())
+    );
+    displayItems(filterData);
+  }
+});
+
 document.getElementById("searchBar").addEventListener("keyup", (e) => {
   const searchData = e.target.value.toLowerCase();
   const filterData = categories.filter((item) =>
