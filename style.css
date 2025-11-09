@@ -394,26 +394,27 @@ footer {
 
 /* Contact */
 
-.contact{
+.contact {
   display: flex;
   align-items: center;
 }
 
-.contact-img{
+.contact-img {
   width: 50%;
 }
 
-.contact-img img{
+.contact-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.contact form{
+.contact form {
   max-width: 400px;
 }
 
-.contact input, .contact textarea{
+.contact input,
+.contact textarea {
   width: 100%;
   margin: 0.5rem 0 1rem 0;
   border: 1px solid #51a995;
@@ -591,17 +592,16 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-}
+  }
 
-.contact-img {
+  .contact-img {
     width: 100%;
-}
+  }
 
-.contact-img img {
+  .contact-img img {
     width: 70%;
     height: auto;
-}
-
+  }
 
   /* Job Details  */
 
