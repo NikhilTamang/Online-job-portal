@@ -197,7 +197,7 @@ main {
   margin-top: 2rem;
 }
 
-/* Registration page  */
+/* Registration & Login page  */
 .card {
   width: 100%;
   display: flex;
@@ -251,7 +251,7 @@ select {
   color: #111827;
 }
 
-inut::placeholder {
+input::placeholder {
   color: #6b7280;
 }
 
