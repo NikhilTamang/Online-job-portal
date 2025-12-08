@@ -1,6 +1,13 @@
 <?php
-require_once 'includes/db.php';
 session_start();
+
+require_once 'includes/db.php';
+require_once 'includes/functions.php';
+
+if (isLoggedIn()) {
+    header('Location: index.php');
+    exit;
+}
 
 $error = '';
 
@@ -13,6 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->execute();
     
     $result = $stmt->get_result();
+    $stmt->close();
     
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();

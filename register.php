@@ -1,6 +1,13 @@
 <?php
+session_start();
 
 require_once('includes/db.php');
+require_once('includes/functions.php');
+
+if (isLoggedIn()) {
+    header('Location: index.php');
+    exit;
+}
 
 $error = '';
 
@@ -18,6 +25,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->num_rows > 0){
         $error = "Email already registered.";
     } else {
+        $stmt->close();
         $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
         $stmt->bind_param('ssss', $name, $email, $password, $role);
         $stmt->execute();
