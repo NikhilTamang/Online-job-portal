@@ -1,4 +1,31 @@
 <?php
+
+require_once('includes/db.php');
+
+$error = '';
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $role = $_POST['role'];
+
+    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0){
+        $error = "Email already registered.";
+    } else {
+        $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param('ssss', $name, $email, $password, $role);
+        $stmt->execute();
+
+        header("Location: login.php");
+        exit;
+    }
+}
 include 'includes/header.php';
 ?>
 
@@ -9,6 +36,12 @@ include 'includes/header.php';
             <h2>Create Account</h2>
             <p class="text-sm">Join us to find your next opportunity</p>
         </div>
+
+        <?php if ($error): ?>
+            <div class="error-msg">
+                <?= $error ?>
+            </div>
+        <?php endif; ?>       
 
         <!-- Registraion Form  -->
         <form method="post" class="text-sm">

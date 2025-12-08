@@ -56,6 +56,16 @@ body {
   background-color: #1d4ed8;
 }
 
+.error-msg {
+  text-align: center;
+  background: #fef2f2;
+  font-size: 12px;
+  padding: 0.7rem;
+  border-radius: 16px;
+  color: #b91c1c;
+  margin-bottom: 1rem;
+}
+
 /* Typography */
 h1,
 h2,
@@ -299,7 +309,7 @@ select:focus {
   .navLinks .btn {
     width: 100%;
   }
-  
+
   .navLinks .blue-btn {
     width: 100%;
     display: block;
