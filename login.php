@@ -1,4 +1,42 @@
 <?php
+require_once 'includes/db.php';
+session_start();
+
+$error = '';
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = trim($_POST['email']);
+    $password = $_POST['password'];
+    
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows === 1) {
+        $user = $result->fetch_assoc();
+        
+        if (password_verify($password, $user['password'])) {
+            
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['name'] = $user['name'];
+            $_SESSION['role'] = $user['role'];
+            
+            if ($user['role'] == 'seeker') {
+                header("Location: seeker/dashboard.php");
+                exit;
+            } else {
+                header("Location: employer/dashboard.php");
+                exit;
+            }
+        } else {
+            $error = "Invalid Password";
+        }
+    } else {
+        $error = "Invalid Email";
+    }
+}
 include 'includes/header.php';
 ?>
 
@@ -8,6 +46,12 @@ include 'includes/header.php';
         <div class="info">
             <h2>Welcome Back</h2>
         </div>
+
+        <?php if ($error): ?>
+            <div class="error-msg">
+                <?= $error ?>
+            </div>
+        <?php endif; ?>    
 
         <!-- Login Form  -->
         <form method="post" class="text-sm">
