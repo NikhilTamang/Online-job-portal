@@ -16,25 +16,25 @@
             <ul class="flex navLinks">
 
                 <li><a href="/Online-job-portal/index.php">Find Jobs</a></li>
-            <?php if(isLoggedIn()):?>
-            
-                <?php if(isSeeker()):?>
-                    <li><a href="/Online-job-portal/seeker/dashboard.php">Dashboard</a></li>
-                    
-                <?php else:?>
-                    <li><a href="/Online-job-portal/employer/dashboard.php">Dashboard</a></li>
-                <?php endif;?>    
+                <?php if (isLoggedIn()): ?>
+
+                    <?php if (isSeeker()): ?>
+                        <li><a href="/Online-job-portal/seeker/dashboard.php">Dashboard</a></li>
+
+                    <?php else: ?>
+                        <li><a href="/Online-job-portal/employer/dashboard.php">Dashboard</a></li>
+                    <?php endif; ?>
                     <div class="btn">
                         <li><a class="blue-btn" href="/Online-job-portal/logout.php">Logout</a></li>
                     </div>
 
-            <?php else:?>
-                <li><a href="/Online-job-portal/login.php">Login</a></li>
-                <div class="btn">
-                    <li><a class="blue-btn" href="/Online-job-portal/register.php">Post a Job</a></li>
-                </div>
+                <?php else: ?>
+                    <li><a href="/Online-job-portal/login.php">Login</a></li>
+                    <div class="btn">
+                        <li><a class="blue-btn" href="/Online-job-portal/register.php">Post a Job</a></li>
+                    </div>
 
-            <?php endif;?>
+                <?php endif; ?>
             </ul>
 
             <div class="hamburger">
