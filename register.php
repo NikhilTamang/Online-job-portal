@@ -28,7 +28,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt->close();
         $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
         $stmt->bind_param('ssss', $name, $email, $password, $role);
-        $stmt->execute();
+        if($stmt->execute()) {
+            $id = $conn->insert_id;
+            
+            if($role == "seeker") {
+                $stmt = $conn->prepare("INSERT INTO seekers (user_id) VALUES (?)");
+                $stmt->bind_param("i", $id);
+                $stmt->execute();
+            }
+        }
 
         header("Location: login.php");
         exit;

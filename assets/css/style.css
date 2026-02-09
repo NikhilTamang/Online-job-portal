@@ -22,6 +22,11 @@ body {
   color: #6b7280;
 }
 
+.text-lg {
+  font-size: 20px;
+  font-weight: 600;
+}
+
 .text-black {
   color: #111827;
 }
@@ -56,6 +61,20 @@ body {
   background-color: #1d4ed8;
 }
 
+.gray-btn {
+  font-size: 14px;
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  color: black;
+  border: 1px solid #e5e7eb;
+}
+
+.gray-btn:hover {
+  border: 1px solid #1d4ed8;
+  color: blue;
+}
+
 .error-msg {
   text-align: center;
   background: #fef2f2;
@@ -63,6 +82,16 @@ body {
   padding: 0.7rem;
   border-radius: 16px;
   color: #b91c1c;
+  margin-bottom: 1rem;
+}
+
+.success-msg {
+  text-align: center;
+  background: #ecfdf5;
+  font-size: 12px;
+  padding: 0.7rem;
+  border-radius: 16px;
+  color: #047857;
   margin-bottom: 1rem;
 }
 
@@ -254,25 +283,118 @@ label {
 }
 
 input,
-select {
+select,
+textarea {
   padding: 0.5rem 0.7rem;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   color: #111827;
+  font-family: "Inter", sans-serif;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #6b7280;
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   outline: 1px solid #007bff;
 }
 
 .form-data {
   gap: 0.25rem;
   margin-bottom: 0.75rem;
+}
+
+/* Seeker Dashboard  */
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.dashboard-card {
+  width: 100%;
+  background-color: white;
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.table-container {
+  margin-top: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: auto;
+}
+
+.table-container table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+table thead {
+  background: #f9fafb;
+}
+
+table tbody {
+  color: black;
+}
+
+table tr {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+table tbody tr:last-child {
+  border-bottom: none;
+}
+
+table td {
+  font-weight: 400;
+}
+
+table th,
+table td {
+  padding: 12px;
+}
+
+.accepted-msg {
+  text-align: center;
+  background: #ecfdf5;
+  font-size: 12px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 16px;
+  color: #047857;
+}
+
+.rejected-msg {
+  text-align: center;
+  background: #fef2f2;
+  font-size: 12px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 16px;
+  color: #b91c1c;
+}
+
+/* Seeker Profile edit */
+
+.edit-profile-form {
+  flex-direction: column;
+}
+
+.edit-profile-form .dashboard-header {
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.resume-link {
+  color: #2563eb;
+  text-decoration: underline;
 }
 
 /* Responsiveness  */
