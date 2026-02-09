@@ -6,6 +6,7 @@ require_once '../includes/functions.php';
 
 if (!isLoggedIn() || !isEmployer()) {
     header('Location: ../login.php');
+    exit();
 }
 
 

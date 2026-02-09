@@ -12,7 +12,7 @@ include '../includes/header.php';
 ?>
 <div class="dashboard-header">
     <h2>My Dashboard</h2>
-    <a href="" class="gray-btn">Edit Profile</a>
+    <a href="profile.php" class="gray-btn">Edit Profile</a>
 </div>
 
 <div class="dashboard-card">

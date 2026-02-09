@@ -85,6 +85,16 @@ body {
   margin-bottom: 1rem;
 }
 
+.success-msg {
+  text-align: center;
+  background: #ecfdf5;
+  font-size: 12px;
+  padding: 0.7rem;
+  border-radius: 16px;
+  color: #047857;
+  margin-bottom: 1rem;
+}
+
 /* Typography */
 h1,
 h2,
@@ -273,19 +283,23 @@ label {
 }
 
 input,
-select {
+select,
+textarea {
   padding: 0.5rem 0.7rem;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   color: #111827;
+  font-family: "Inter", sans-serif;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #6b7280;
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   outline: 1px solid #007bff;
 }
 
@@ -365,6 +379,22 @@ table td {
   padding: 0.25rem 0.5rem;
   border-radius: 16px;
   color: #b91c1c;
+}
+
+/* Seeker Profile edit */
+
+.edit-profile-form {
+  flex-direction: column;
+}
+
+.edit-profile-form .dashboard-header {
+  width: 100%;
+  justify-content: space-evenly;
+}
+
+.resume-link {
+  color: #2563eb;
+  text-decoration: underline;
 }
 
 /* Responsiveness  */
