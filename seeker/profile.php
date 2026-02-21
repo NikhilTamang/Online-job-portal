@@ -152,7 +152,7 @@ include '../includes/header.php';
 
                 <div class="flex-col form-data">
                     <label class="text-black">Skills</label>
-                    <textarea name="skills" rows="4" placeholder="List your skills separated by commas"><?= esc($seeker['skills'] ?? '') ?></textarea>
+                    <textarea class="skills" name="skills" rows="4" placeholder="List your skills separated by commas"><?= esc($seeker['skills'] ?? '') ?></textarea>
                 </div>
 
                 <div class="flex-col form-data">

@@ -397,6 +397,11 @@ table td {
   text-decoration: underline;
 }
 
+.skills {
+  min-height: 100px;
+  field-sizing: content;
+}
+
 /* Responsiveness  */
 @media (max-width: 768px) {
   .hamburger {
