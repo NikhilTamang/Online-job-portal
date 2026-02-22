@@ -1,95 +1,98 @@
 <?php
-session_start();
-
-require_once('includes/db.php');
-require_once('includes/functions.php');
+require_once 'includes/db.php';
+require_once 'includes/functions.php';
 
 if (isLoggedIn()) {
-    header('Location: index.php');
-    exit;
+    redirect('index.php');
 }
 
 $error = '';
+$role = isset($_GET['role']) ? $_GET['role'] : 'seeker';
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name = trim($_POST['name']);
-    $email = trim($_POST['email']);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $role = $_POST['role'];
 
+    // Check if email exists
     $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
 
-    if ($stmt->num_rows > 0){
-        $error = "Email already registered.";
+    if ($stmt->num_rows > 0) {
+        $error = "Email already registered";
     } else {
-        $stmt->close();
         $stmt = $conn->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param('ssss', $name, $email, $password, $role);
-        if($stmt->execute()) {
+        $stmt->bind_param("ssss", $name, $email, $password, $role);
+
+        if ($stmt->execute()) {
             $id = $conn->insert_id;
-            
-            if($role == "seeker") {
+
+            if ($role == 'employer') {
+                // Create empty employer profile
+                $stmt = $conn->prepare("INSERT INTO employers (user_id, company_name) VALUES (?, ?)");
+                $stmt->bind_param("is", $id, $name);
+                $stmt->execute();
+            } else {
+                // Create empty seeker profile
                 $stmt = $conn->prepare("INSERT INTO seekers (user_id) VALUES (?)");
                 $stmt->bind_param("i", $id);
                 $stmt->execute();
             }
-        }
 
-        header("Location: login.php");
-        exit;
+            redirect('login.php?registered=1');
+        } else {
+            $error = "Registration failed";
+        }
     }
 }
+
 include 'includes/header.php';
 ?>
 
-<div class="card">
-    <div class="form">
-
-        <div class="info">
-            <h2>Create Account</h2>
-            <p class="text-sm">Join us to find your next opportunity</p>
-        </div>
+<div class="auth-container auth-container-md">
+    <div class="card">
+        <h2 class="auth-title">Create Account</h2>
+        <p class="auth-subtitle">Join us to find your next opportunity</p>
 
         <?php if ($error): ?>
-            <div class="error-msg">
+            <div class="badge badge-danger mb-4 badge-block">
                 <?= $error ?>
             </div>
-        <?php endif; ?>       
+        <?php endif; ?>
 
-        <!-- Registraion Form  -->
-        <form method="post" class="text-sm">
-            <div class="flex-col form-data">
-                <label class="text-black">Full Name</label>
-                <input type="text" name="name" required placeholder="Full name/Company name">
+        <form method="POST">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="name" required placeholder="John Doe">
             </div>
 
-            <div class="flex-col form-data">
-                <label class="text-black">Email Address</label>
-                <input type="email" name="email" required placeholder="test@gmail.com">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" required placeholder="you@example.com">
             </div>
 
-            <div class="flex-col form-data">
-                <label class="text-black">Password</label>
+            <div class="form-group">
+                <label>Password</label>
                 <input type="password" name="password" required placeholder="••••••••">
             </div>
 
-            <div class="flex-col form-data">
-                <label class="text-black">I want to...</label>
-                <select name="role" class="text-black">
-                    <option value="seeker">Find a Job</option>
-                    <option value="employer">Hire Talent</option>
+            <div class="form-group">
+                <label>I want to...</label>
+                <select name="role">
+                    <option value="seeker" <?= $role == 'seeker' ? 'selected' : '' ?>>Find a Job</option>
+                    <option value="employer" <?= $role == 'employer' ? 'selected' : '' ?>>Hire Talent</option>
                 </select>
             </div>
-                
-            <button class="blue-btn" type="submit">Sign Up</button>
+
+            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
         </form>
-        <div class="info-bottom text-sm">
-            <p>Already have an account?</p>
-            <a class="text-blue" href="/Online-job-portal/login.php">Sign in</a>
-        </div>
+
+        <p class="auth-footer">
+            Already have an account? <a href="login.php" class="auth-link">Sign in</a>
+        </p>
     </div>
 </div>
 

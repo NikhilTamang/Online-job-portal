@@ -1,14 +1,14 @@
 <?php
 
-    $host = "localhost";
-    $user = "root";
-    $pass = "";
-    $dbname = "job_portal";
+session_start();
 
-    $conn =  new mysqli($host, $user, $pass, $dbname);
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "job_portal";
 
-    if($conn->connect_error) {
-        die("Connection failed: " .$conn->connect_error);
-    }
+$conn = new mysqli($host, $user, $pass, $dbname);
 
-?>
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
