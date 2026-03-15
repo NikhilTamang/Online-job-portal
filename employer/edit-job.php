@@ -34,13 +34,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $salary      = trim($_POST['salary']);
     $description = trim($_POST['description']);
     $deadline    = trim($_POST['deadline']);
+    $category    = trim($_POST['category']); // job category
 
     if (empty($title) || empty($location) || empty($description)) {
         $error = "Title, location, and description are required.";
     } else {
         $deadlineVal = !empty($deadline) ? $deadline : null;
-        $stmt = $conn->prepare("UPDATE jobs SET title = ?, location = ?, salary = ?, description = ?, deadline = ? WHERE id = ?");
-        $stmt->bind_param("sssssi", $title, $location, $salary, $description, $deadlineVal, $job_id);
+        // Include category in the UPDATE statement
+        $stmt = $conn->prepare("UPDATE jobs SET title = ?, location = ?, salary = ?, description = ?, deadline = ?, category = ? WHERE id = ?");
+        $stmt->bind_param("ssssssi", $title, $location, $salary, $description, $deadlineVal, $category, $job_id);
         if ($stmt->execute()) {
             $success = "Job updated successfully!";
             // Refresh job data
@@ -85,6 +87,22 @@ include '../includes/header.php';
             <div class="form-group">
                 <label>Salary ($)</label>
                 <input type="number" name="salary" value="<?= esc($job['salary']) ?>" placeholder="e.g. 120000">
+            </div>
+
+            <!-- Category Dropdown: pre-selects the saved category -->
+            <div class="form-group">
+                <label>Job Category</label>
+                <select name="category">
+                    <option value="">-- Select Category --</option>
+                    <?php
+                    $categories = ['IT','Marketing','Finance','Healthcare','Education','Engineering','Sales','Design','Operations','HR','Legal','Other'];
+                    $cat_labels = ['IT'=>'IT','Marketing'=>'Marketing','Finance'=>'Finance','Healthcare'=>'Healthcare','Education'=>'Education','Engineering'=>'Engineering','Sales'=>'Sales','Design'=>'Design','Operations'=>'Operations','HR'=>'Human Resources','Legal'=>'Legal','Other'=>'Other'];
+                    foreach ($categories as $cat): ?>
+                        <option value="<?= esc($cat) ?>" <?= (isset($job['category']) && $job['category'] === $cat) ? 'selected' : '' ?>>
+                            <?= esc($cat_labels[$cat]) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
             </div>
 
             <div class="form-group">

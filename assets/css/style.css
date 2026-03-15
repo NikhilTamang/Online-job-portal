@@ -772,6 +772,41 @@ footer {
   background-color: #1d4ed8;
 }
 
+/* Wider search wrapper to accommodate category dropdown */
+.search-wrapper-wide {
+  max-width: 820px;
+}
+
+/* Thin vertical divider between the text input and the category select */
+.search-divider {
+  display: inline-block;
+  width: 1px;
+  height: 24px;
+  background-color: #e5e7eb;
+  flex-shrink: 0;
+  margin: 0 0.25rem;
+}
+
+/* Category select inside the search bar — inherits the pill look */
+.search-wrapper .search-category-select {
+  border: none;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+  font-size: 0.9375rem;
+  color: #374151;
+  padding: 0.5rem 0.5rem;
+  width: auto;
+  cursor: pointer;
+  appearance: auto;   /* keep the native arrow */
+}
+
+.search-wrapper .search-category-select:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
 /* Authentication Pages (Register/Login) */
 .auth-container {
   display: flex;

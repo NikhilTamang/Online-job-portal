@@ -15,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $location    = trim($_POST['location']);
     $salary      = trim($_POST['salary']);
     $deadline    = trim($_POST['deadline']); // may be empty
+    $category    = trim($_POST['category']); // job category
 
     // Validate deadline is not in the past if provided
     if (!empty($deadline) && $deadline < date('Y-m-d')) {
@@ -27,8 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($employer) {
             $deadlineVal = !empty($deadline) ? $deadline : null;
-            $stmt = $conn->prepare("INSERT INTO jobs (employer_id, title, description, location, salary, deadline) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("isssss", $employer['id'], $title, $description, $location, $salary, $deadlineVal);
+            // Include category in the INSERT statement
+            $stmt = $conn->prepare("INSERT INTO jobs (employer_id, title, description, location, salary, deadline, category) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("issssss", $employer['id'], $title, $description, $location, $salary, $deadlineVal, $category);
             if ($stmt->execute()) {
                 $success = "Job posted successfully!";
             } else {
@@ -76,6 +78,26 @@ include '../includes/header.php';
             <div class="form-group">
                 <label>Salary ($)</label>
                 <input type="number" name="salary" required placeholder="e.g. 120000">
+            </div>
+
+            <!-- Category Dropdown -->
+            <div class="form-group">
+                <label>Job Category</label>
+                <select name="category">
+                    <option value="">-- Select Category --</option>
+                    <option value="IT">IT</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Education">Education</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Sales">Sales</option>
+                    <option value="Design">Design</option>
+                    <option value="Operations">Operations</option>
+                    <option value="HR">Human Resources</option>
+                    <option value="Legal">Legal</option>
+                    <option value="Other">Other</option>
+                </select>
             </div>
 
             <div class="form-group">

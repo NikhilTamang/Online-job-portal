@@ -28,9 +28,11 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit' && isset($_POST['job_
     $location    = trim($_POST['location']);
     $salary      = trim($_POST['salary']);
     $description = trim($_POST['description']);
+    $category    = trim($_POST['category']); // job category
 
-    $stmt = $conn->prepare("UPDATE jobs SET title = ?, location = ?, salary = ?, description = ? WHERE id = ?");
-    $stmt->bind_param("ssssi", $title, $location, $salary, $description, $jid);
+    // Include category in the UPDATE statement
+    $stmt = $conn->prepare("UPDATE jobs SET title = ?, location = ?, salary = ?, description = ?, category = ? WHERE id = ?");
+    $stmt->bind_param("sssssi", $title, $location, $salary, $description, $category, $jid);
     if ($stmt->execute()) {
         $success = "Job updated successfully.";
     } else {
@@ -103,6 +105,21 @@ include '../includes/header.php';
             <label>Description</label>
             <textarea name="description" rows="8" required><?= esc($editing['description']) ?></textarea>
         </div>
+        <!-- Category Dropdown: pre-selects the saved category -->
+        <div class="form-group">
+            <label>Job Category</label>
+            <select name="category">
+                <option value="">-- Select Category --</option>
+                <?php
+                $categories = ['IT','Marketing','Finance','Healthcare','Education','Engineering','Sales','Design','Operations','HR','Legal','Other'];
+                $cat_labels = ['IT'=>'IT','Marketing'=>'Marketing','Finance'=>'Finance','Healthcare'=>'Healthcare','Education'=>'Education','Engineering'=>'Engineering','Sales'=>'Sales','Design'=>'Design','Operations'=>'Operations','HR'=>'Human Resources','Legal'=>'Legal','Other'=>'Other'];
+                foreach ($categories as $cat): ?>
+                    <option value="<?= esc($cat) ?>" <?= (isset($editing['category']) && $editing['category'] === $cat) ? 'selected' : '' ?>>
+                        <?= esc($cat_labels[$cat]) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
         <div class="flex gap-4">
             <button type="submit" class="btn btn-primary">Save Changes</button>
             <a href="jobs.php" class="btn btn-outline">Cancel</a>
@@ -121,6 +138,7 @@ include '../includes/header.php';
                         <th>#</th>
                         <th>Job Title</th>
                         <th>Company</th>
+                        <th>Category</th>
                         <th>Location</th>
                         <th>Posted On</th>
                         <th>Actions</th>
@@ -136,6 +154,7 @@ include '../includes/header.php';
                                 </a>
                             </td>
                             <td><?= esc($j['company_name']) ?></td>
+                            <td><?= esc($j['category'] ?: '—') ?></td>
                             <td><?= esc($j['location']) ?></td>
                             <td><?= date('M j, Y', strtotime($j['created_at'])) ?></td>
                             <td>

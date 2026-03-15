@@ -41,6 +41,7 @@ CREATE TABLE jobs (
     salary VARCHAR(50),
     deadline DATE,
     experience INT,
+    category VARCHAR(100),        
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (employer_id) REFERENCES employers(id) ON DELETE CASCADE
 );
