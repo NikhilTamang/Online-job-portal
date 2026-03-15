@@ -7,6 +7,29 @@ if (!isLoggedIn() || !isEmployer()) {
 }
 
 $user_id = $_SESSION['user_id'];
+$success = '';
+$error   = '';
+
+// Handle job deletion
+if (isset($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['job_id'])) {
+    $jid = (int)$_POST['job_id'];
+    // Verify ownership
+    $stmt = $conn->prepare("SELECT id FROM jobs WHERE id = ? AND employer_id = (SELECT id FROM employers WHERE user_id = ?)");
+    $stmt->bind_param("ii", $jid, $user_id);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        $stmt = $conn->prepare("DELETE FROM jobs WHERE id = ?");
+        $stmt->bind_param("i", $jid);
+        if ($stmt->execute()) {
+            $success = "Job posting deleted successfully.";
+        } else {
+            $error = "Failed to delete job.";
+        }
+    } else {
+        $error = "Unauthorized action.";
+    }
+}
 
 // Fetch jobs posted by employer
 $stmt = $conn->prepare('
@@ -26,8 +49,18 @@ include '../includes/header.php';
 
 <div class="flex justify-between items-center mb-8">
     <h1>Employer Dashboard</h1>
-    <a href="post-job.php" class="btn btn-primary">Post a New Job</a>
+    <div class="flex gap-4">
+        <a href="profile.php" class="btn btn-outline">Edit Profile</a>
+        <a href="post-job.php" class="btn btn-primary">Post a New Job</a>
+    </div>
 </div>
+
+<?php if ($error): ?>
+    <div class="badge badge-danger alert-badge mb-4"><?= esc($error) ?></div>
+<?php endif; ?>
+<?php if ($success): ?>
+    <div class="badge badge-success alert-badge mb-4"><?= esc($success) ?></div>
+<?php endif; ?>
 
 <div class="card">
     <h2 class="dashboard-title">My Job Postings</h2>
@@ -58,7 +91,15 @@ include '../includes/header.php';
                                 </span>
                             </td>
                             <td>
-                                <a href="applicants.php?job_id=<?= $job['id'] ?>" class="btn btn-sm btn-outline">View Applicants</a>
+                                <div class="flex gap-2">
+                                    <a href="applicants.php?job_id=<?= $job['id'] ?>" class="btn btn-sm btn-outline">Applicants</a>
+                                    <a href="edit-job.php?id=<?= $job['id'] ?>" class="btn btn-sm btn-secondary">Edit</a>
+                                    <form method="POST" onsubmit="return confirm('Delete this job? All applications will be removed.');">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="job_id" value="<?= $job['id'] ?>">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>

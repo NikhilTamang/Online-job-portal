@@ -80,10 +80,10 @@ include 'includes/header.php';
             </div>
 
             <div class="form-group">
-                <label>I want to...</label>
+                <label>I am a...</label>
                 <select name="role">
-                    <option value="seeker" <?= $role == 'seeker' ? 'selected' : '' ?>>Find a Job</option>
-                    <option value="employer" <?= $role == 'employer' ? 'selected' : '' ?>>Hire Talent</option>
+                    <option value="seeker" <?= $role == 'seeker' ? 'selected' : '' ?>>Job Seeker</option>
+                    <option value="employer" <?= $role == 'employer' ? 'selected' : '' ?>>Employer</option>
                 </select>
             </div>
 

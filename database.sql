@@ -1,6 +1,6 @@
 -- Database: job_portal
-CREATE DATABASE IF NOT EXISTS job_p2;
-USE job_p2;
+CREATE DATABASE IF NOT EXISTS job_portal;
+USE job_portal;
 
 -- Users table (job seekers, employers, admin)
 CREATE TABLE users (
@@ -39,6 +39,7 @@ CREATE TABLE jobs (
     description TEXT NOT NULL,
     location VARCHAR(100) NOT NULL,
     salary VARCHAR(50),
+    deadline DATE,
     experience INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (employer_id) REFERENCES employers(id) ON DELETE CASCADE
@@ -54,7 +55,3 @@ CREATE TABLE applications (
     FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
     FOREIGN KEY (seeker_id) REFERENCES seekers(id) ON DELETE CASCADE
 );
-
--- Sample users
--- Password is 'password123' (hash it before inserting if using manually)
--- INSERT INTO users (name,email,password,role) VALUES ...

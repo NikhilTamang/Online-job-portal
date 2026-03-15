@@ -30,6 +30,7 @@ include '../includes/header.php';
         <a href="profile.php" class="btn btn-outline">Edit Profile</a>
     </div>
 
+
     <div class="card">
         <h2 class="dashboard-title">My Applications</h2>
 
@@ -73,4 +74,4 @@ include '../includes/header.php';
     </div>
 </div>
 
-<?php include '../includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

@@ -24,6 +24,12 @@ function isSeeker()
     return isset($_SESSION['role']) && $_SESSION['role'] === 'seeker';
 }
 
+// Check if admin is logged in
+function isAdmin()
+{
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+}
+
 // Redirect helper
 function redirect($page)
 {

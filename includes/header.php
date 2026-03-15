@@ -41,7 +41,7 @@
                     <li><a href="/Online-job-portal/logout.php" class="btn btn-sm btn-secondary">Logout</a></li>
                 <?php else: ?>
                     <li><a href="/Online-job-portal/login.php">Login</a></li>
-                    <li><a href="/Online-job-portal/register.php" class="btn btn-sm btn-primary">Post a Job</a></li>
+                    <li><a href="/Online-job-portal/register.php" class="btn btn-sm btn-primary">Sign Up</a></li>
                 <?php endif; ?>
             </ul>
         </div>

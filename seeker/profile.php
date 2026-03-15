@@ -20,7 +20,8 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $seeker = $stmt->get_result()->fetch_assoc();
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+// Handle profile update
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $name     = trim($_POST['name']);
     $email    = trim($_POST['email']);
     $headline = trim($_POST['headline']);
@@ -69,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
+
 include '../includes/header.php';
 ?>
 
@@ -78,20 +80,18 @@ include '../includes/header.php';
         <a href="dashboard.php" class="btn btn-outline">Back to Dashboard</a>
     </div>
 
+    <?php if ($error): ?>
+        <div class="badge badge-danger alert-badge"><?= esc($error) ?></div>
+    <?php endif; ?>
+
+    <?php if ($success): ?>
+        <div class="badge badge-success alert-badge"><?= esc($success) ?></div>
+    <?php endif; ?>
+
+    <!-- Profile Info Form -->
     <div class="card">
-        <?php if ($error): ?>
-            <div class="badge badge-danger alert-badge">
-                <?= $error ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if ($success): ?>
-            <div class="badge badge-success alert-badge">
-                <?= $success ?>
-            </div>
-        <?php endif; ?>
-
         <form method="post" enctype="multipart/form-data">
+            <input type="hidden" name="update_profile" value="1">
             <div class="form-group">
                 <label>Full Name</label>
                 <input type="text" name="name" value="<?= esc($user['name']) ?>" required>
@@ -126,4 +126,4 @@ include '../includes/header.php';
     </div>
 </div>
 
-<?php include '../includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

@@ -6,30 +6,37 @@ if (!isLoggedIn() || !isEmployer()) {
     redirect('../login.php');
 }
 
-$error = '';
+$error   = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    $location = $_POST['location'];
-    $salary = $_POST['salary'];
+    $title       = trim($_POST['title']);
+    $description = trim($_POST['description']);
+    $location    = trim($_POST['location']);
+    $salary      = trim($_POST['salary']);
+    $deadline    = trim($_POST['deadline']); // may be empty
 
-    $stmt = $conn->prepare("SELECT id FROM employers WHERE user_id = ?");
-    $stmt->bind_param("i", $_SESSION['user_id']);
-    $stmt->execute();
-    $employer = $stmt->get_result()->fetch_assoc();
-
-    if ($employer) {
-        $stmt = $conn->prepare("INSERT INTO jobs (employer_id, title, description, location, salary) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("isssd", $employer['id'], $title, $description, $location, $salary);
-        if ($stmt->execute()) {
-            $success = "Job posted successfully!";
-        } else {
-            $error = "Failed to post job.";
-        }
+    // Validate deadline is not in the past if provided
+    if (!empty($deadline) && $deadline < date('Y-m-d')) {
+        $error = "Deadline cannot be in the past.";
     } else {
-        $error = "Employer profile not found.";
+        $stmt = $conn->prepare("SELECT id FROM employers WHERE user_id = ?");
+        $stmt->bind_param("i", $_SESSION['user_id']);
+        $stmt->execute();
+        $employer = $stmt->get_result()->fetch_assoc();
+
+        if ($employer) {
+            $deadlineVal = !empty($deadline) ? $deadline : null;
+            $stmt = $conn->prepare("INSERT INTO jobs (employer_id, title, description, location, salary, deadline) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("isssss", $employer['id'], $title, $description, $location, $salary, $deadlineVal);
+            if ($stmt->execute()) {
+                $success = "Job posted successfully!";
+            } else {
+                $error = "Failed to post job.";
+            }
+        } else {
+            $error = "Employer profile not found.";
+        }
     }
 }
 
@@ -45,13 +52,13 @@ include '../includes/header.php';
     <div class="card">
         <?php if ($error): ?>
             <div class="badge badge-danger alert-badge">
-                <?= $error ?>
+                <?= esc($error) ?>
             </div>
         <?php endif; ?>
 
         <?php if ($success): ?>
             <div class="badge badge-success alert-badge">
-                <?= $success ?>
+                <?= esc($success) ?>
             </div>
         <?php endif; ?>
 
@@ -69,6 +76,12 @@ include '../includes/header.php';
             <div class="form-group">
                 <label>Salary ($)</label>
                 <input type="number" name="salary" required placeholder="e.g. 120000">
+            </div>
+
+            <div class="form-group">
+                <label>Application Deadline</label>
+                <input type="date" name="deadline" min="<?= date('Y-m-d') ?>">
+                <small style="color:#6b7280;font-size:0.8rem;">Leave blank for no deadline.</small>
             </div>
 
             <div class="form-group">

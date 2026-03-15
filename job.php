@@ -22,6 +22,10 @@ if (!$job) {
     redirect('index.php');
 }
 
+// Vacancy status: compare today's date against the deadline
+$today      = date('Y-m-d');
+$isExpired  = !empty($job['deadline']) && $today > $job['deadline'];
+
 include 'includes/header.php';
 ?>
 
@@ -32,12 +36,39 @@ include 'includes/header.php';
             <div class="job-meta">
                 <span class="job-company"><?= esc($job['company_name']) ?></span>
                 <span>•</span>
-                <span><?= esc($job['location']) ?></span>
-                <span>•</span>
-                <span>$<?= number_format($job['salary']) ?></span>
-                <span>•</span>
                 <span>Posted <?= date('M j, Y', strtotime($job['created_at'])) ?></span>
             </div>
+
+            <!-- Vacancy Status Badge -->
+            <?php if (!empty($job['deadline'])): ?>
+                <div class="vacancy-status <?= $isExpired ? 'vacancy-closed' : 'vacancy-open' ?>">
+                    <?php if ($isExpired): ?>
+                        ⛔ Closed &mdash; Deadline was <?= date('M j, Y', strtotime($job['deadline'])) ?>
+                    <?php else: ?>
+                        ✅ Open &mdash; Apply before <?= date('M j, Y', strtotime($job['deadline'])) ?>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Job Details -->
+        <div class="job-detail-grid">
+            <div class="job-detail-item">
+                <span class="job-detail-label">Location</span>
+                <span class="job-detail-value"><?= esc($job['location']) ?></span>
+            </div>
+            <div class="job-detail-item">
+                <span class="job-detail-label">Salary</span>
+                <span class="job-detail-value">$<?= number_format($job['salary']) ?></span>
+            </div>
+            <?php if (!empty($job['deadline'])): ?>
+            <div class="job-detail-item">
+                <span class="job-detail-label">Application Deadline</span>
+                <span class="job-detail-value <?= $isExpired ? 'deadline-expired' : 'deadline-active' ?>">
+                    <?= date('M j, Y', strtotime($job['deadline'])) ?>
+                </span>
+            </div>
+            <?php endif; ?>
         </div>
 
         <div class="job-section">
@@ -50,10 +81,20 @@ include 'includes/header.php';
         <div class="job-cta">
             <div>
                 <h4 class="job-cta-title">Interested in this role?</h4>
-                <p class="job-cta-text">Apply now to get in touch with the employer.</p>
+                <?php if ($isExpired): ?>
+                    <p class="job-cta-text deadline-expired-msg">
+                        ⚠️ Job Not Available &mdash; Application deadline has passed.
+                    </p>
+                <?php else: ?>
+                    <p class="job-cta-text">Apply now to get in touch with the employer.</p>
+                <?php endif; ?>
             </div>
 
-            <?php if (isSeeker()): ?>
+            <?php if ($isExpired): ?>
+                <!-- Expired: no apply button -->
+                <button class="btn btn-secondary" disabled>Deadline Passed</button>
+
+            <?php elseif (isSeeker()): ?>
                 <?php
                 // Check if already applied
                 $user_id = $_SESSION['user_id'];
@@ -63,7 +104,6 @@ include 'includes/header.php';
                 $stmt->store_result();
                 $hasApplied = $stmt->num_rows > 0;
                 ?>
-
                 <?php if ($hasApplied): ?>
                     <button class="btn btn-secondary" disabled>Applied</button>
                 <?php else: ?>
