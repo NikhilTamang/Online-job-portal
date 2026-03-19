@@ -2,6 +2,15 @@
 require_once '../includes/db.php';
 require_once '../includes/functions.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require __DIR__ . '/../PHPMailer/Exception.php';
+require __DIR__ . '/../PHPMailer/PHPMailer.php';
+require __DIR__ . '/../PHPMailer/SMTP.php';
+
+
 if (!isLoggedIn() || !isEmployer()) {
     redirect('../login.php');
 }
@@ -22,17 +31,99 @@ if (!$job) {
     redirect('dashboard.php');
 }
 
-// Handle status updates
+// ── Email sender helper ───────────────────────────────────────────────────────
+function sendStatusEmail(string $toEmail, string $toName, string $jobTitle, string $status): bool
+{
+    $mail = new PHPMailer(true);
+
+    try {
+        // Server settings
+        $mail->SMTPDebug  = SMTP::DEBUG_OFF;               // Set to SMTP::DEBUG_SERVER while testing
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'get4juggernath@gmail.com';    // Your Gmail address
+        $mail->Password   = 'hoeb jauk uypo sflc';                      // Your Gmail app password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port       = 465;
+
+        // Sender / recipient
+        $mail->setFrom('get4juggernath@gmail.com', 'Job Portal');
+        $mail->addAddress($toEmail, $toName);
+
+        // Build email content based on status
+        $mail->isHTML(true);
+
+        if ($status === 'accepted') {
+            $mail->Subject = "Congratulations! Your application for \"{$jobTitle}\" was accepted";
+            $mail->Body    = "
+                <p>Dear <strong>{$toName}</strong>,</p>
+                <p>We are pleased to inform you that your application for the position of
+                <strong>{$jobTitle}</strong> has been <span style='color:green;'><strong>accepted</strong></span>.</p>
+                <p>Our team will be in touch with you shortly regarding the next steps.</p>
+                <br>
+                <p>Best regards,<br>The Job Portal Team</p>
+            ";
+            $mail->AltBody = "Dear {$toName}, your application for \"{$jobTitle}\" has been accepted. We will contact you soon.";
+        } else {
+            $mail->Subject = "Update on your application for \"{$jobTitle}\"";
+            $mail->Body    = "
+                <p>Dear <strong>{$toName}</strong>,</p>
+                <p>Thank you for applying for the position of <strong>{$jobTitle}</strong>.</p>
+                <p>After careful consideration, we regret to inform you that your application has
+                <span style='color:red;'><strong>not been selected</strong></span> at this time.</p>
+                <p>We encourage you to apply for future openings that match your skills.</p>
+                <br>
+                <p>Best regards,<br>The Job Portal Team</p>
+            ";
+            $mail->AltBody = "Dear {$toName}, unfortunately your application for \"{$jobTitle}\" was not selected this time. Thank you for applying.";
+        }
+
+        $mail->send();
+        return true;
+
+    } catch (Exception $e) {
+        // Silently log the error — don't break the page over an email failure
+        error_log("PHPMailer error for {$toEmail}: " . $mail->ErrorInfo);
+        return false;
+    }
+}
+
+// ── Handle status updates ─────────────────────────────────────────────────────
+$emailResult = null; // null = no action yet, true = sent, false = failed
+
 if (isset($_POST['action']) && isset($_POST['application_id'])) {
     $status = $_POST['action']; // 'accepted' or 'rejected'
     $app_id = (int)$_POST['application_id'];
 
+    // Update status in DB
     $stmt = $conn->prepare("UPDATE applications SET status = ? WHERE id = ?");
     $stmt->bind_param("si", $status, $app_id);
     $stmt->execute();
+
+    // Fetch applicant name, email, for the email
+    $stmt = $conn->prepare("
+        SELECT u.name, u.email
+        FROM applications a
+        JOIN seekers s ON a.seeker_id = s.id
+        JOIN users u ON s.user_id = u.id
+        WHERE a.id = ?
+    ");
+    $stmt->bind_param("i", $app_id);
+    $stmt->execute();
+    $applicant = $stmt->get_result()->fetch_assoc();
+
+    if ($applicant) {
+        $emailResult = sendStatusEmail(
+            $applicant['email'],
+            $applicant['name'],
+            $job['title'],
+            $status
+        );
+    }
 }
 
-// Fetch applicants
+// ── Fetch all applicants for display ─────────────────────────────────────────
 $stmt = $conn->prepare('
     SELECT a.*, u.name, u.email, s.resume_path 
     FROM applications a 
@@ -55,6 +146,12 @@ include '../includes/header.php';
     </div>
     <a href="dashboard.php" class="btn btn-outline">Back to Dashboard</a>
 </div>
+
+<?php if ($emailResult === true): ?>
+    <div class="alert alert-success">Email notification sent successfully to the applicant.</div>
+<?php elseif ($emailResult === false): ?>
+    <div class="alert alert-warning">Status updated, but the email notification could not be sent. Check your mail settings.</div>
+<?php endif; ?>
 
 <div class="card">
     <?php if (count($applicants) > 0): ?>
