@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $role = $_POST['role'];
 
-    // Check if email exists
+    
     $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -31,12 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id = $conn->insert_id;
 
             if ($role == 'employer') {
-                // Create empty employer profile
+                
                 $stmt = $conn->prepare("INSERT INTO employers (user_id, company_name) VALUES (?, ?)");
                 $stmt->bind_param("is", $id, $name);
                 $stmt->execute();
             } else {
-                // Create empty seeker profile
+                
                 $stmt = $conn->prepare("INSERT INTO seekers (user_id) VALUES (?)");
                 $stmt->bind_param("i", $id);
                 $stmt->execute();

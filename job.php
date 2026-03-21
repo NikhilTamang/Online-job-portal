@@ -22,7 +22,7 @@ if (!$job) {
     redirect('index.php');
 }
 
-// Vacancy status: compare today's date against the deadline
+
 $today      = date('Y-m-d');
 $isExpired  = !empty($job['deadline']) && $today > $job['deadline'];
 
@@ -39,7 +39,7 @@ include 'includes/header.php';
                 <span>Posted <?= date('M j, Y', strtotime($job['created_at'])) ?></span>
             </div>
 
-            <!-- Vacancy Status Badge -->
+            
             <?php if (!empty($job['deadline'])): ?>
                 <div class="vacancy-status <?= $isExpired ? 'vacancy-closed' : 'vacancy-open' ?>">
                     <?php if ($isExpired): ?>
@@ -51,7 +51,7 @@ include 'includes/header.php';
             <?php endif; ?>
         </div>
 
-        <!-- Job Details -->
+        
         <div class="job-detail-grid">
             <div class="job-detail-item">
                 <span class="job-detail-label">Location</span>
@@ -91,12 +91,12 @@ include 'includes/header.php';
             </div>
 
             <?php if ($isExpired): ?>
-                <!-- Expired: no apply button -->
+                
                 <button class="btn btn-secondary" disabled>Deadline Passed</button>
 
             <?php elseif (isSeeker()): ?>
                 <?php
-                // Check if already applied
+                
                 $user_id = $_SESSION['user_id'];
                 $stmt = $conn->prepare("SELECT id FROM applications WHERE job_id = ? AND seeker_id = (SELECT id FROM seekers WHERE user_id = ?)");
                 $stmt->bind_param("ii", $job['id'], $user_id);

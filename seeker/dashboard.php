@@ -8,7 +8,7 @@ if (!isLoggedIn() || !isSeeker()) {
 
 $user_id = $_SESSION['user_id'];
 
-// Fetch applications
+
 $stmt = $conn->prepare('
     SELECT a.*, j.title, j.location, e.company_name 
     FROM applications a 

@@ -10,7 +10,7 @@ $user_id = $_SESSION['user_id'];
 $error = '';
 $success = '';
 
-// Fetch current data
+
 $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -21,13 +21,13 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $employer = $stmt->get_result()->fetch_assoc();
 
-// Handle profile update
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
     $name         = trim($_POST['name']);
     $email        = trim($_POST['email']);
     $company_name = trim($_POST['company_name']);
 
-    // Check email uniqueness
+    
     $stmt = $conn->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
     $stmt->bind_param("si", $email, $user_id);
     $stmt->execute();
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
         $_SESSION['name'] = $name;
         $success = "Profile updated successfully!";
 
-        // Refresh
+        
         $user['name']     = $name;
         $user['email']    = $email;
         $employer['company_name'] = $company_name;
@@ -71,7 +71,7 @@ include '../includes/header.php';
         <div class="badge badge-success alert-badge"><?= esc($success) ?></div>
     <?php endif; ?>
 
-    <!-- Profile Update Form -->
+    
     <div class="card mb-4">
         <h2 class="dashboard-title">Edit Profile</h2>
         <form method="POST">

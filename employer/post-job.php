@@ -14,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $description = trim($_POST['description']);
     $location    = trim($_POST['location']);
     $salary      = trim($_POST['salary']);
-    $deadline    = trim($_POST['deadline']); // may be empty
-    $category    = trim($_POST['category']); // job category
+    $deadline    = trim($_POST['deadline']); 
+    $category    = trim($_POST['category']); 
 
-    // Validate deadline is not in the past if provided
+    
     if (!empty($deadline) && $deadline < date('Y-m-d')) {
         $error = "Deadline cannot be in the past.";
     } else {
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($employer) {
             $deadlineVal = !empty($deadline) ? $deadline : null;
-            // Include category in the INSERT statement
+            
             $stmt = $conn->prepare("INSERT INTO jobs (employer_id, title, description, location, salary, deadline, category) VALUES (?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("issssss", $employer['id'], $title, $description, $location, $salary, $deadlineVal, $category);
             if ($stmt->execute()) {
@@ -80,7 +80,7 @@ include '../includes/header.php';
                 <input type="number" name="salary" required placeholder="e.g. 120000">
             </div>
 
-            <!-- Category Dropdown -->
+            
             <div class="form-group">
                 <label>Job Category</label>
                 <select name="category">

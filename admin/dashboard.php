@@ -23,7 +23,7 @@ include '../includes/header.php';
 
 <div class="flex justify-between items-center mb-8">
     <h1>Admin Dashboard</h1>
-    <span class="badge badge-success" style="font-size:0.9rem;padding:0.4rem 1rem;">Admin Panel</span>
+    <span class="badge badge-primary" style="font-size:0.85rem;padding:0.4rem 1.1rem;">⚙️ Admin Panel</span>
 </div>
 
 <div class="stats-grid">
@@ -49,7 +49,7 @@ include '../includes/header.php';
     <a href="users.php" class="card admin-nav-card">
         <div class="admin-nav-icon">👥</div>
         <h3>Manage Users</h3>
-        <p>View and remove job seekers and employers.</p>
+        <p>View all registered job seekers and employers.</p>
     </a>
     <a href="jobs.php" class="card admin-nav-card">
         <div class="admin-nav-icon">💼</div>

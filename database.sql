@@ -1,8 +1,8 @@
--- Database: job_portal
+
 CREATE DATABASE IF NOT EXISTS job_portal;
 USE job_portal;
 
--- Users table (job seekers, employers, admin)
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Seekers profile table
+
 CREATE TABLE seekers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE seekers (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Employers profile table
+
 CREATE TABLE employers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE employers (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Jobs table
+
 CREATE TABLE jobs (
     id INT AUTO_INCREMENT PRIMARY KEY,
     employer_id INT NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE jobs (
     FOREIGN KEY (employer_id) REFERENCES employers(id) ON DELETE CASCADE
 );
 
--- Applications table
+
 CREATE TABLE applications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     job_id INT NOT NULL,

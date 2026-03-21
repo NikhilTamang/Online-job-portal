@@ -21,7 +21,7 @@ if (!isset($_GET['job_id'])) {
 
 $job_id = (int)$_GET['job_id'];
 
-// Fetch job details to verify ownership
+
 $stmt = $conn->prepare("SELECT title FROM jobs WHERE id = ? AND employer_id = (SELECT id FROM employers WHERE user_id = ?)");
 $stmt->bind_param("ii", $job_id, $_SESSION['user_id']);
 $stmt->execute();
@@ -31,27 +31,27 @@ if (!$job) {
     redirect('dashboard.php');
 }
 
-// ── Email sender helper ───────────────────────────────────────────────────────
+
 function sendStatusEmail(string $toEmail, string $toName, string $jobTitle, string $status): bool
 {
     $mail = new PHPMailer(true);
 
     try {
-        // Server settings
-        $mail->SMTPDebug  = SMTP::DEBUG_OFF;               // Set to SMTP::DEBUG_SERVER while testing
+        
+        $mail->SMTPDebug  = SMTP::DEBUG_OFF;               
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'get4juggernath@gmail.com';    // Your Gmail address
-        $mail->Password   = 'hoeb jauk uypo sflc';                      // Your Gmail app password
+        $mail->Username   = 'get4juggernath@gmail.com';    
+        $mail->Password   = 'hoeb jauk uypo sflc';                      
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port       = 465;
 
-        // Sender / recipient
+        
         $mail->setFrom('get4juggernath@gmail.com', 'Job Portal');
         $mail->addAddress($toEmail, $toName);
 
-        // Build email content based on status
+        
         $mail->isHTML(true);
 
         if ($status === 'accepted') {
@@ -83,25 +83,25 @@ function sendStatusEmail(string $toEmail, string $toName, string $jobTitle, stri
         return true;
 
     } catch (Exception $e) {
-        // Silently log the error — don't break the page over an email failure
+        
         error_log("PHPMailer error for {$toEmail}: " . $mail->ErrorInfo);
         return false;
     }
 }
 
-// ── Handle status updates ─────────────────────────────────────────────────────
-$emailResult = null; // null = no action yet, true = sent, false = failed
+
+$emailResult = null; 
 
 if (isset($_POST['action']) && isset($_POST['application_id'])) {
-    $status = $_POST['action']; // 'accepted' or 'rejected'
+    $status = $_POST['action']; 
     $app_id = (int)$_POST['application_id'];
 
-    // Update status in DB
+    
     $stmt = $conn->prepare("UPDATE applications SET status = ? WHERE id = ?");
     $stmt->bind_param("si", $status, $app_id);
     $stmt->execute();
 
-    // Fetch applicant name, email, for the email
+    
     $stmt = $conn->prepare("
         SELECT u.name, u.email
         FROM applications a
@@ -123,7 +123,7 @@ if (isset($_POST['action']) && isset($_POST['application_id'])) {
     }
 }
 
-// ── Fetch all applicants for display ─────────────────────────────────────────
+
 $stmt = $conn->prepare('
     SELECT a.*, u.name, u.email, s.resume_path 
     FROM applications a 

@@ -9,7 +9,7 @@ if (!isLoggedIn() || !isAdmin()) {
 $success = '';
 $error = '';
 
-// Handle delete
+
 if (isset($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['job_id'])) {
     $jid = (int)$_POST['job_id'];
     $stmt = $conn->prepare("DELETE FROM jobs WHERE id = ?");
@@ -21,16 +21,16 @@ if (isset($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['jo
     }
 }
 
-// Handle edit
+
 if (isset($_POST['action']) && $_POST['action'] === 'edit' && isset($_POST['job_id'])) {
     $jid         = (int)$_POST['job_id'];
     $title       = trim($_POST['title']);
     $location    = trim($_POST['location']);
     $salary      = trim($_POST['salary']);
     $description = trim($_POST['description']);
-    $category    = trim($_POST['category']); // job category
+    $category    = trim($_POST['category']); 
 
-    // Include category in the UPDATE statement
+    
     $stmt = $conn->prepare("UPDATE jobs SET title = ?, location = ?, salary = ?, description = ?, category = ? WHERE id = ?");
     $stmt->bind_param("sssssi", $title, $location, $salary, $description, $category, $jid);
     if ($stmt->execute()) {
@@ -40,7 +40,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit' && isset($_POST['job_
     }
 }
 
-// Fetch all jobs
+
 $jobs = $conn->query("
     SELECT j.*, e.company_name, u.name as recruiter_name
     FROM jobs j
@@ -49,7 +49,7 @@ $jobs = $conn->query("
     ORDER BY j.created_at DESC
 ")->fetch_all(MYSQLI_ASSOC);
 
-// Editing mode
+
 $editing = null;
 if (isset($_GET['edit'])) {
     $edit_id = (int)$_GET['edit'];
@@ -59,7 +59,7 @@ if (isset($_GET['edit'])) {
             break;
         }
     }
-    // Refetch if deleted above
+    
     if (!$editing) {
         $stmt = $conn->prepare("SELECT j.*, e.company_name FROM jobs j JOIN employers e ON j.employer_id = e.id WHERE j.id = ?");
         $stmt->bind_param("i", $edit_id);
@@ -105,7 +105,7 @@ include '../includes/header.php';
             <label>Description</label>
             <textarea name="description" rows="8" required><?= esc($editing['description']) ?></textarea>
         </div>
-        <!-- Category Dropdown: pre-selects the saved category -->
+        
         <div class="form-group">
             <label>Job Category</label>
             <select name="category">

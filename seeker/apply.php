@@ -15,7 +15,7 @@ $user_id = $_SESSION['user_id'];
 $error   = '';
 $success = '';
 
-// Fetch job details including deadline
+
 $stmt = $conn->prepare("SELECT title, deadline FROM jobs WHERE id = ?");
 $stmt->bind_param("i", $job_id);
 $stmt->execute();
@@ -25,13 +25,13 @@ if (!$job) {
     redirect('../index.php');
 }
 
-// --- Deadline check (first gate) ---
+
 $today = date('Y-m-d');
 if (!empty($job['deadline']) && $today > $job['deadline']) {
     $error = "Application Failed: The job deadline has passed.";
 }
 
-// Check if user already applied
+
 if (!$error) {
     $stmt = $conn->prepare("SELECT id FROM applications WHERE job_id = ? AND seeker_id = (SELECT id FROM seekers WHERE user_id = ?)");
     $stmt->bind_param("ii", $job_id, $user_id);
@@ -42,10 +42,10 @@ if (!$error) {
     }
 }
 
-// Handle confirmation & final submission
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm']) && !$error) {
 
-    // --- Re-check deadline at submission time (second gate) ---
+    
     $stmt = $conn->prepare("SELECT deadline FROM jobs WHERE id = ?");
     $stmt->bind_param("i", $job_id);
     $stmt->execute();
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm']) && !$error)
     if (!empty($latest['deadline']) && $today > $latest['deadline']) {
         $error = "Application Failed: The job deadline has passed.";
     } else {
-        // Get seeker ID
+        
         $stmt = $conn->prepare("SELECT id FROM seekers WHERE user_id = ?");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();

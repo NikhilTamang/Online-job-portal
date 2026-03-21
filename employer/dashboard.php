@@ -10,10 +10,10 @@ $user_id = $_SESSION['user_id'];
 $success = '';
 $error   = '';
 
-// Handle job deletion
+
 if (isset($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['job_id'])) {
     $jid = (int)$_POST['job_id'];
-    // Verify ownership
+    
     $stmt = $conn->prepare("SELECT id FROM jobs WHERE id = ? AND employer_id = (SELECT id FROM employers WHERE user_id = ?)");
     $stmt->bind_param("ii", $jid, $user_id);
     $stmt->execute();
@@ -31,7 +31,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['jo
     }
 }
 
-// Fetch jobs posted by employer
+
 $stmt = $conn->prepare('
     SELECT j.*, COUNT(a.id) as applicant_count 
     FROM jobs j 

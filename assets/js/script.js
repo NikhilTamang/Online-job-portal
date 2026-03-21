@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Form Validation
+
     const forms = document.querySelectorAll('form');
 
     forms.forEach(form => {
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Hamburger Menu Toggle
+
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('nav-links');
 

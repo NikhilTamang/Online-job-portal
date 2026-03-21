@@ -20,7 +20,7 @@ $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $seeker = $stmt->get_result()->fetch_assoc();
 
-// Handle profile update
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $name     = trim($_POST['name']);
     $email    = trim($_POST['email']);
@@ -88,7 +88,7 @@ include '../includes/header.php';
         <div class="badge badge-success alert-badge"><?= esc($success) ?></div>
     <?php endif; ?>
 
-    <!-- Profile Info Form -->
+    
     <div class="card">
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" name="update_profile" value="1">
