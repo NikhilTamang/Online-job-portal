@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $salary      = trim($_POST['salary']);
     $description = trim($_POST['description']);
     $deadline    = trim($_POST['deadline']);
-    $category    = trim($_POST['category']); 
+    $category    = trim($_POST['category']);
 
     if (empty($title) || empty($location) || empty($description)) {
         $error = "Title, location, and description are required.";

@@ -4,6 +4,18 @@ require_once 'includes/functions.php';
 
 $search_query    = isset($_GET['q'])        ? trim($_GET['q'])        : '';
 $filter_category = isset($_GET['category']) ? trim($_GET['category']) : '';
+
+$pref_filter_cats = [];
+if (isLoggedIn() && isSeeker() && empty($filter_category) && empty($search_query)) {
+    $pref_s = $conn->prepare("SELECT preferred_category FROM seekers WHERE user_id = ?");
+    $pref_s->bind_param("i", $_SESSION['user_id']);
+    $pref_s->execute();
+    $pref_row = $pref_s->get_result()->fetch_assoc();
+    if (!empty($pref_row['preferred_category'])) {
+        $pref_filter_cats = array_map('trim', explode(',', $pref_row['preferred_category']));
+    }
+}
+
 $is_filtering    = $search_query || $filter_category;
 
 $per_page    = 9;
@@ -28,6 +40,11 @@ if ($filter_category) {
     $conditions[] = "jobs.category = ?";
     $params[] = $filter_category;
     $types   .= 's';
+} elseif (!empty($pref_filter_cats)) {
+    $ph = implode(',', array_fill(0, count($pref_filter_cats), '?'));
+    $conditions[] = "jobs.category IN ($ph)";
+    $params = array_merge($params, $pref_filter_cats);
+    $types .= str_repeat('s', count($pref_filter_cats));
 }
 
 $where = !empty($conditions) ? ' WHERE ' . implode(' AND ', $conditions) : '';
@@ -36,7 +53,10 @@ $total_jobs   = 0;
 $total_pages  = 1;
 
 if (!$is_filtering) {
-    $count_stmt = $conn->prepare("SELECT COUNT(*) as cnt $base");
+    $count_stmt = $conn->prepare("SELECT COUNT(*) as cnt $base $where");
+    if (!empty($params)) {
+        $count_stmt->bind_param($types, ...$params);
+    }
     $count_stmt->execute();
     $total_jobs  = $count_stmt->get_result()->fetch_assoc()['cnt'];
     $total_pages = max(1, (int)ceil($total_jobs / $per_page));
@@ -52,8 +72,16 @@ if ($is_filtering) {
 } else {
 
     $offset = ($current_page - 1) * $per_page;
-    $stmt = $conn->prepare("SELECT jobs.*, employers.company_name, users.name as recruiter_name $base ORDER BY jobs.created_at DESC LIMIT ? OFFSET ?");
-    $stmt->bind_param("ii", $per_page, $offset);
+    if (!empty($pref_filter_cats)) {
+        $ph      = implode(',', array_fill(0, count($pref_filter_cats), '?'));
+        $stmt    = $conn->prepare("SELECT jobs.*, employers.company_name, users.name as recruiter_name $base WHERE jobs.category IN ($ph) ORDER BY jobs.created_at DESC LIMIT ? OFFSET ?");
+        $p_types = str_repeat('s', count($pref_filter_cats)) . 'ii';
+        $p_vals  = array_merge($pref_filter_cats, [$per_page, $offset]);
+        $stmt->bind_param($p_types, ...$p_vals);
+    } else {
+        $stmt = $conn->prepare("SELECT jobs.*, employers.company_name, users.name as recruiter_name $base ORDER BY jobs.created_at DESC LIMIT ? OFFSET ?");
+        $stmt->bind_param("ii", $per_page, $offset);
+    }
 }
 
 $stmt->execute();

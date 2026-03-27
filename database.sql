@@ -19,6 +19,7 @@ CREATE TABLE seekers (
     headline VARCHAR(255),
     skills TEXT,
     resume_path VARCHAR(255),
+    preferred_category VARCHAR(500) DEFAULT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );

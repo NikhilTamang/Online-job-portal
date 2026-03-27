@@ -6,8 +6,7 @@ if (!isLoggedIn() || !isEmployer()) {
     redirect('../login.php');
 }
 
-$error   = '';
-$success = '';
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $title       = trim($_POST['title']);
@@ -20,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     if (!empty($deadline) && $deadline < date('Y-m-d')) {
         $error = "Deadline cannot be in the past.";
+    } elseif (empty($salary) || !is_numeric($salary) || filter_var($salary, FILTER_VALIDATE_FLOAT) === false || (float)$salary <= 0) {
+        $error = "Please enter a valid salary amount.";
     } else {
         $stmt = $conn->prepare("SELECT id FROM employers WHERE user_id = ?");
         $stmt->bind_param("i", $_SESSION['user_id']);
@@ -28,11 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($employer) {
             $deadlineVal = !empty($deadline) ? $deadline : null;
-            
+            $salaryVal   = (float)$salary;
+
             $stmt = $conn->prepare("INSERT INTO jobs (employer_id, title, description, location, salary, deadline, category) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("issssss", $employer['id'], $title, $description, $location, $salary, $deadlineVal, $category);
+            $stmt->bind_param("issssss", $employer['id'], $title, $description, $location, $salaryVal, $deadlineVal, $category);
             if ($stmt->execute()) {
-                $success = "Job posted successfully!";
+                header("Location: post-job.php?success=1");
+                exit;
             } else {
                 $error = "Failed to post job.";
             }
@@ -58,9 +61,9 @@ include '../includes/header.php';
             </div>
         <?php endif; ?>
 
-        <?php if ($success): ?>
+        <?php if (isset($_GET['success'])): ?>
             <div class="badge badge-success alert-badge">
-                <?= esc($success) ?>
+                Job posted successfully!
             </div>
         <?php endif; ?>
 
@@ -72,18 +75,20 @@ include '../includes/header.php';
 
             <div class="form-group">
                 <label>Location</label>
-                <input type="text" name="location" required placeholder="e.g. New York, NY (or Remote)">
+                <input type="text" name="location" required placeholder="e.g. Kathmandu, Nepal (or Remote)">
             </div>
 
             <div class="form-group">
-                <label>Salary ($)</label>
-                <input type="number" name="salary" required placeholder="e.g. 120000">
+                <label>Salary (Rs)</label>
+                <input type="number" name="salary" required min="1" step="any"
+                    placeholder="e.g. 120000"
+                    value="<?= $error && isset($_POST['salary']) ? esc($_POST['salary']) : '' ?>">
             </div>
 
             
             <div class="form-group">
                 <label>Job Category</label>
-                <select name="category">
+                <select name="category" required>
                     <option value="">-- Select Category --</option>
                     <option value="IT">IT</option>
                     <option value="Marketing">Marketing</option>

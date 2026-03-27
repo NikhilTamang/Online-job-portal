@@ -10,10 +10,19 @@ $user_id = $_SESSION['user_id'];
 $success = '';
 $error   = '';
 
+$u_stmt = $conn->prepare("SELECT name, email FROM users WHERE id = ?");
+$u_stmt->bind_param("i", $user_id);
+$u_stmt->execute();
+$user = $u_stmt->get_result()->fetch_assoc();
+
+$e_stmt = $conn->prepare("SELECT company_name FROM employers WHERE user_id = ?");
+$e_stmt->bind_param("i", $user_id);
+$e_stmt->execute();
+$employer_profile = $e_stmt->get_result()->fetch_assoc();
 
 if (isset($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['job_id'])) {
     $jid = (int)$_POST['job_id'];
-    
+
     $stmt = $conn->prepare("SELECT id FROM jobs WHERE id = ? AND employer_id = (SELECT id FROM employers WHERE user_id = ?)");
     $stmt->bind_param("ii", $jid, $user_id);
     $stmt->execute();
@@ -31,11 +40,10 @@ if (isset($_POST['action']) && $_POST['action'] === 'delete' && isset($_POST['jo
     }
 }
 
-
 $stmt = $conn->prepare('
-    SELECT j.*, COUNT(a.id) as applicant_count 
-    FROM jobs j 
-    LEFT JOIN applications a ON j.id = a.job_id 
+    SELECT j.*, COUNT(a.id) as applicant_count
+    FROM jobs j
+    LEFT JOIN applications a ON j.id = a.job_id
     WHERE j.employer_id = (SELECT id FROM employers WHERE user_id = ?)
     GROUP BY j.id
     ORDER BY j.created_at DESC
@@ -47,7 +55,7 @@ $jobs = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 include '../includes/header.php';
 ?>
 
-<div class="flex justify-between items-center mb-8">
+<div class="flex justify-between items-center mb-4">
     <h1>Employer Dashboard</h1>
     <div class="flex gap-4">
         <a href="profile.php" class="btn btn-outline">Edit Profile</a>
@@ -62,6 +70,26 @@ include '../includes/header.php';
     <div class="badge badge-success alert-badge mb-4"><?= esc($success) ?></div>
 <?php endif; ?>
 
+<div class="card" style="margin-bottom:1.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
+    <div class="user-avatar-circle employer-avatar">
+        <?= strtoupper(substr($user['name'], 0, 1)) ?>
+    </div>
+    <div>
+        <div style="font-size:1.25rem;font-weight:700;color:#111827;"><?= esc($user['name']) ?></div>
+        <div style="font-size:0.85rem;color:#6b7280;margin-top:2px;">
+            <span class="badge" style="font-size:0.75rem;padding:2px 10px;border-radius:999px;background:#d1fae5;color:#065f46;">Employer</span>
+        </div>
+        <?php if (!empty($employer_profile['company_name'])): ?>
+            <div style="margin-top:6px;color:#374151;font-size:0.9rem;">🏢 <?= esc($employer_profile['company_name']) ?></div>
+        <?php endif; ?>
+        <div style="margin-top:4px;color:#6b7280;font-size:0.82rem;">✉️ <?= esc($user['email']) ?></div>
+    </div>
+    <div style="margin-left:auto;text-align:right;">
+        <div style="font-size:2rem;font-weight:800;color:#4f46e5;text-align:center;"><?= count($jobs) ?></div>
+        <div style="font-size:0.8rem;color:#6b7280;">Active Posting<?= count($jobs) !== 1 ? 's' : '' ?></div>
+    </div>
+</div>
+
 <div class="card">
     <h2 class="dashboard-title">My Job Postings</h2>
 
@@ -71,6 +99,7 @@ include '../includes/header.php';
                 <thead>
                     <tr>
                         <th>Job Title</th>
+                        <th>Category</th>
                         <th>Posted On</th>
                         <th>Applicants</th>
                         <th>Actions</th>
@@ -83,11 +112,23 @@ include '../includes/header.php';
                                 <a href="../job.php?id=<?= $job['id'] ?>" class="table-link">
                                     <?= esc($job['title']) ?>
                                 </a>
+                                <?php if (!empty($employer_profile['company_name'])): ?>
+                                    <div style="font-size:0.78rem;color:#6b7280;">
+                                        🏢 <?= esc($employer_profile['company_name']) ?>
+                                    </div>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <?php if (!empty($job['category'])): ?>
+                                    <span class="job-card-category" style="font-size:0.76rem;"><?= esc($job['category']) ?></span>
+                                <?php else: ?>
+                                    <span style="color:#9ca3af;">—</span>
+                                <?php endif; ?>
                             </td>
                             <td><?= date('M j, Y', strtotime($job['created_at'])) ?></td>
                             <td>
                                 <span class="badge badge-<?= $job['applicant_count'] > 0 ? 'success' : 'warning' ?>">
-                                    <?= $job['applicant_count'] ?> Applicants
+                                    <?= $job['applicant_count'] ?> Applicant<?= $job['applicant_count'] != 1 ? 's' : '' ?>
                                 </span>
                             </td>
                             <td>
@@ -113,5 +154,24 @@ include '../includes/header.php';
         </div>
     <?php endif; ?>
 </div>
+
+<style>
+.user-avatar-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.employer-avatar {
+    background: linear-gradient(135deg, #10b981, #059669);
+}
+</style>
 
 <?php include '../includes/footer.php'; ?>

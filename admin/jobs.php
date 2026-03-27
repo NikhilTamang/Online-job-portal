@@ -28,7 +28,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'edit' && isset($_POST['job_
     $location    = trim($_POST['location']);
     $salary      = trim($_POST['salary']);
     $description = trim($_POST['description']);
-    $category    = trim($_POST['category']); 
+    $category    = trim($_POST['category']);
 
     
     $stmt = $conn->prepare("UPDATE jobs SET title = ?, location = ?, salary = ?, description = ?, category = ? WHERE id = ?");

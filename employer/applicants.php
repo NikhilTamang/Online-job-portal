@@ -38,7 +38,7 @@ function sendStatusEmail(string $toEmail, string $toName, string $jobTitle, stri
 
     try {
         
-        $mail->SMTPDebug  = SMTP::DEBUG_OFF;               
+        $mail->SMTPDebug  = SMTP::DEBUG_OFF;
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
@@ -47,11 +47,8 @@ function sendStatusEmail(string $toEmail, string $toName, string $jobTitle, stri
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port       = 465;
 
-        
         $mail->setFrom('get4juggernath@gmail.com', 'Job Portal');
         $mail->addAddress($toEmail, $toName);
-
-        
         $mail->isHTML(true);
 
         if ($status === 'accepted') {
@@ -90,7 +87,7 @@ function sendStatusEmail(string $toEmail, string $toName, string $jobTitle, stri
 }
 
 
-$emailResult = null; 
+$emailResult = null;
 
 if (isset($_POST['action']) && isset($_POST['application_id'])) {
     $status = $_POST['action']; 

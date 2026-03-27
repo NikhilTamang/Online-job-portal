@@ -164,6 +164,7 @@ p {
 }
 
 .navbar {
+  margin-bottom: 20px;
   background: rgba(255,255,255,0.92);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -333,6 +334,7 @@ tr:hover td {
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.02em;
+  text-align: center;
 }
 
 .badge-success {

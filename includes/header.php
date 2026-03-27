@@ -18,7 +18,7 @@
 
     <nav class="navbar">
         <div class="container">
-            <a href="/Online-job-portal/index.php" class="logo">⚡ JobPortal</a>
+            <a href="/Online-job-portal/index.php" class="logo">JobPortal</a>
 
             <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
                 <span></span>
